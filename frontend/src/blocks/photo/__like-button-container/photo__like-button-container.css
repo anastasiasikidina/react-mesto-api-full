@@ -1,0 +1,7 @@
+.photo__like-button-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,9 @@
+.photo__image {
+    min-width: 282px;
+    max-height: 282px;
+    margin: 0;
+    padding: 0;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+}

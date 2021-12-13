@@ -1,0 +1,7 @@
+.Spinner{
+    margin: 0 auto;
+    max-width: 247px;
+    min-height: 247px;
+    background: url(../../images/spinner/spinner.gif);
+    background-size: cover;
+}
