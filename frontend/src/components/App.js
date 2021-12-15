@@ -46,11 +46,8 @@ function App() {
           setEmail(res.data.email);
           history.push("/");
         })
-        .catch((err) => {
-          if (err.status === 401) {
-            console.log("401 — Токен не передан или передан не в том формате");
-          }
-          console.log("401 — Переданный токен некорректен");
+        .catch((error) => {
+          console.log(error);
         });
     }
   }
@@ -64,9 +61,7 @@ function App() {
         history.push("/sign-in");
       })
       .catch((err) => {
-        if (err.status === 400) {
-          console.log("Некорректно заполнено одно из полей ");
-        }
+        console.log(err);
         setIsInfoPopupOpen(true);
         setIsRegSucces(false);
       });
@@ -80,13 +75,8 @@ function App() {
         setEmail(email);
         history.push("/");
       })
-      .catch((err) => {
-        if (err.status === 400) {
-          console.log("400 - не передано одно из полей");
-        } else if (err.status === 401) {
-          console.log("401 - пользователь с email не найден ");
-        }
-        return console.log("Error: 500");
+      .catch(err => {
+        console.log(err); 
       });
   }
   function handleSignout() {
@@ -94,22 +84,6 @@ function App() {
     setIsLoggedIn(false);
     history.push("/sign-in");
   }
-/*
-  useEffect(() => {
-    handleCheckToken();
-    api
-      .getUserInformation()
-      .then((info) => {
-        setCurrentUser(info);
-      })
-      .catch((err) => console.log(err));
-    api
-      .getInitialCards()
-      .then((info) => {
-        setCards(info);
-      })
-      .catch((err) => console.log(err));
-  }, []);*/
 
   useEffect(() => {
     handleCheckToken();

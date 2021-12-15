@@ -125,9 +125,9 @@ class Api {
   }
 
   const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-25",
+    baseUrl: "https://api.anastasiasikidina.nomoredomains.work",
     headers: {
-      authorization: "aa278cc5-8371-4a9c-869b-e11b649efea5",
+      "authorization": `Bearer ${localStorage.getItem('jwt')}`,
       "Content-Type": "application/json",
     },
   });
