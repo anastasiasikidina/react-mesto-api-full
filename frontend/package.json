@@ -16,6 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "npm run build && scp -r ./build/* anastasia_s@51.250.30.144:/home/anastasia_s/frontend",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
