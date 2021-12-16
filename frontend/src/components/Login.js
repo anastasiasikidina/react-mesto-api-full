@@ -1,55 +1,32 @@
-import { useState } from "react";
-export default function Login({ onSubmit }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
+import React from 'react';
+
+function Login({ onLogin }) {
+
+  const [userData, setUserData] = React.useState({ email: '', password: '' });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    })
   }
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(email, password);
+    onLogin(userData)
   }
 
   return (
-    <div className="authorization">
-      <h2 className="authorization__title">Вход</h2>
-      <form
-        className="authorization__form"
-        name="login-form"
-        onSubmit={handleSubmit}
-      >
-        <input
-          required
-          minLength="5"
-          onChange={handleEmailChange}
-          value={email}
-          maxLength="40"
-          type="email"
-          name="login-email"
-          placeholder="Email"
-          id="login-email"
-          className="authorization__input"
-        />
-
-        <input
-          required
-          minLength="5"
-          onChange={handlePasswordChange}
-          value={password}
-          maxLength="40"
-          type="password"
-          name="login-password"
-          placeholder="Пароль"
-          id="login-password"
-          className="authorization__input authorization__input_password"
-        />
-        <button type="submit" className="authorization__button">
-          Войти
-        </button>
+    <section className="auth">
+      <form className="auth__form" name="sign-in" onSubmit={handleSubmit}>
+        <h2 className="auth__title">Вход</h2>
+        <input className="auth__input" id="email-sign-in" value={userData.email} name="email" placeholder="Email" type="email" onChange={handleChange} required />
+        <input className="auth__input" id="pass-sign-in" value={userData.password} name="password" placeholder="Пароль" type="password" onChange={handleChange} required />
+        <button className="auth__button" type="submit">Войти</button>
       </form>
-    </div>
-  );
+    </section>
+  )
 }
+
+export default Login;

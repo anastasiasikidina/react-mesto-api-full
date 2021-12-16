@@ -1,28 +1,16 @@
-import React from "react";
+import React from 'react';
 
-function ImagePopup({ card, onClose }) {
+function ImagePopup(props) {
+
   return (
-    <div className={`popup popup_full_photo ${card ? "popup_opened" : ""}`}>
-      <div className="popup__figure-flex">
-        <button
-          onClick={onClose}
-          type="button"
-          className="button-close popup__close popup__close_btn_close popup__button-close"
-          aria-label="Закрыть попап"
-        ></button>
-        <figure className="popup__container popup__container-image popup__container-image_open"> 
-          <img
-            className="popup__image"
-            src={card ? card.link : ""}
-            alt={card ? card.name : ""}
-          />
-          <figcaption className="popup__caption">
-            {card ? card.name : ""}
-          </figcaption>
-        </figure>
+    <div className={`popup popup_type_fullscreen ${props.card.link && "popup_is-opened"}`} onMouseUp={props.closePopupByClickOutside}>
+      <div className="popup__fullscreen-container">
+        <button onClick={props.onClose} type="button" aria-label="Закрыть карточку" className="popup__button popup__button_close popup__button_close-fullscreen"></button>
+        <img src={props.card.link} alt={props.card.name} className="popup__fullscreen-image" />
+        <p className="popup__fullscreen-text">{props.card.name}</p>
       </div>
     </div>
-  );
+  )
 }
 
 export default ImagePopup;

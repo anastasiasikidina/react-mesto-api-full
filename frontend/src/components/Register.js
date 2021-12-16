@@ -1,58 +1,35 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Login({ onSubmit }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
+function Register({ onRegister }) {
+
+  const [userData, setUserData] = React.useState({ email: '', password: '' });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    })
   }
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(email, password);
+    const { email, password } = userData;
+    onRegister(email, password);
   }
+
   return (
-    <div className="authorization">
-      <h2 className="authorization__title">Регистрация</h2>
-      <form
-        className="authorization__form"
-        name="register-form"
-        onSubmit={handleSubmit}
-      >
-        <input
-          required
-          onChange={handleEmailChange}
-          value={email}
-          minLength="5"
-          maxLength="40"
-          type="email"
-          name="register-email"
-          placeholder="Email"
-          id="register-email"
-          className="authorization__input"
-        />
-        <input
-          required
-          minLength="5"
-          onChange={handlePasswordChange}
-          value={password}
-          maxLength="40"
-          type="password"
-          name="register-password"
-          placeholder="Пароль"
-          id="register-password"
-          className="authorization__input authorization__input_password"
-        />
-        <button type="submit" className="authorization__button">
-          Зарегистрироваться
-        </button>
-        <Link className="authorization__login-link" to="/sign-in">
-          Уже зарегистрированы? Войти
-        </Link>
+    <section className="auth">
+      <form className="auth__form" name="sign-up" onSubmit={handleSubmit}>
+        <h2 className="auth__title">Регистрация</h2>
+        <input className="auth__input" id="email-sign-up" value={userData.email} name="email" placeholder="Email" type="email" onChange={handleChange} required />
+        <input className="auth__input" id="pass-sign-up" value={userData.password} name="password" placeholder="Пароль" type="password" onChange={handleChange} required />
+        <button className="auth__button" type="submit">Зарегистрироваться</button>
       </form>
-    </div>
-  );
+      <Link to="/sign-in" className="auth__link">Уже зарегистрированы? Войти</Link>
+    </section>
+  )
 }
+
+export default Register;
