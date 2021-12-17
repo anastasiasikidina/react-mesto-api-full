@@ -1,9 +1,9 @@
 const allowedCors = [
-  'https://api.anastasiasikidina.nomoredomains.work',
-  'http://localhost:3000',
-  'https://localhost:3000',
   'https://anastasiasikidina.mesto.nomoredomains.work',
   'http://anastasiasikidina.mesto.nomoredomains.work',
+  'https://localhost:3000',
+  'http://localhost:3000',
+  'localhost:3000',
 ];
 
 module.exports = (req, res, next) => {

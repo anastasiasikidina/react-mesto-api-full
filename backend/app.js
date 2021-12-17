@@ -1,7 +1,10 @@
 const express = require('express');
+
 require('dotenv').config();
 
-const { celebrate, Joi } = require('celebrate');
+const { errors, celebrate, Joi } = require('celebrate');
+
+const cors = require('./middlewares/cors');
 
 const mongoose = require('mongoose', {
   useUnifiedTopology: true,
@@ -9,45 +12,30 @@ const mongoose = require('mongoose', {
   useCreateIndex: true,
   useFindAndModify: false,
 });
-const { errors } = require('celebrate');
-const helmet = require('helmet');
-const bodyParser = require('body-parser');
-
-const cors = require('./middlewares/cors');
 const errorHandler = require('./middlewares/errors');
-const { createUser, login } = require('./controllers/users');
-const userRouters = require('./routes/users');
-const cardRouters = require('./routes/cards');
 const auth = require('./middlewares/auth');
+const { createUser, login } = require('./controllers/users');
+const userRouters = require('./routes/user');
+const cardRouters = require('./routes/card');
+
+const NotFoundError = require('./errors/not-found-error');
+
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
 const app = express();
+
+const mestodb = 'mongodb://localhost:27017/mestodb';
+const { PORT = 3000 } = process.env;
 
 app.use(express.json());
 app.use(requestLogger);
 app.use(cors);
-app.use(express.urlencoded({ extended: true }));
-
-const NotFoundError = require('./errors/not-found-error');
-
-// подключение к серверу mongo
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-});
 
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
-app.use(helmet());
-
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
-app.use(bodyParser.json());
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -69,6 +57,7 @@ app.use(auth);
 
 app.use('/', userRouters);
 app.use('/', cardRouters);
+
 app.use('*', () => {
   throw new NotFoundError('Не существующий адрес.');
 });
@@ -80,5 +69,8 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
+
+mongoose.connect(mestodb);

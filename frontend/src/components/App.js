@@ -71,6 +71,7 @@ function App() {
         setIsLoadingSetUserInfo(false);
         setIsLoadingInitialData(false);
       })
+        // eslint-disable-next-line
   }, []);
 
   const handleRegister = ({ email, password }) => {
