@@ -1,11 +1,9 @@
-import React from 'react';
-
-function Footer() {
+const Footer = ({filler}) => {
   return (
-    <footer className="footer">
-      <p className="footer__copyright">&copy; 2021 Anastasia Sikidina</p>
+    <footer className="footer page__footer">
+      <p className="footer__copyright">{filler}</p>
     </footer>
-  )
+  );
 }
 
 export default Footer;

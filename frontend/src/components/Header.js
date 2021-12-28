@@ -1,29 +1,13 @@
-import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Header(props) {
-
+const Header = ({ linkTitle, userData, onSignOut }) => {
   return (
-    <header className="header">
-      <div className="header__logo"></div>
-      <Route path="/sign-up">
-        <Link to="/sign-in" className="header__link">Войти</Link>
-      </Route>
-      <Route path="/sign-in">
-        <Link to="/sign-up" className="header__link">Регистрация</Link>
-      </Route>
-      <Route exact path="/">
-        <ul className="header__list">
-          <li>
-            <p className="header__text">{props.userEmail}</p>
-          </li>
-          <li>
-            <Link to="/sign-in" className="header__link header__link_logout" onClick={props.handleLogout}>Выйти</Link>
-          </li>
-        </ul>
-      </Route>
+    <header className="header page__header">
+      <a href="#" className="header__logo" target="_self"></a>
+      <p className="header__email">{userData.email}</p>
+      {linkTitle ? <Link to={linkTitle === "Войти" ? '/signin' : '/signup'} className="header__link">{linkTitle}</Link> : <p className="header__link" onClick={onSignOut}>Выйти</p>}
     </header>
-  )
+  );
 }
 
 export default Header;

@@ -1,19 +1,61 @@
-import React from 'react';
+import { useRef, useEffect } from 'react';
+import FormValidator from '../utils/FormValidator';
 
-function PopupWithForm(props) {
+const PopupWithForm = ({name, isOpen, title, children, ariaLabel, buttonTitle, onClose, onSubmit, submitButtonRef, handleInputsReset}) => {
+  const className = `popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`;
+  const objSelectors = {
+    formSelector: '.popup__edit-form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error-element_visible'
+  };
+
+  const currentValidatingForm = useRef(null);
+
+  useEffect(() => {
+    const formValidate = new FormValidator(objSelectors, currentValidatingForm.current);
+    formValidate.enableValidation();
+  }, []);
+
+
+  function clearFormFromErrors() {
+    submitButtonRef.current.classList.add(objSelectors['inactiveButtonClass']);
+    submitButtonRef.current.setAttribute('disable', true);
+    Array.from(currentValidatingForm.current.querySelectorAll(objSelectors['inputSelector']))
+      .forEach((inputElement) => {
+        const errorElement = currentValidatingForm.current.querySelector(`.${inputElement.id}-error`);
+        inputElement.classList.remove(objSelectors['inputErrorClass']);
+        errorElement.textContent = '';
+        errorElement.classList.remove(objSelectors['errorClass']);
+      })
+  }
+
+  function handleClosePopup() {
+    onClose();
+    clearFormFromErrors();
+    handleInputsReset();
+    if(name === 'delete') {
+      submitButtonRef.current.removeAttribute('disabled');
+      submitButtonRef.current.classList.remove('popup__save-button_disabled');
+    }
+  }
 
   return (
-    <div className={`popup popup_type_${props.name} ${props.isOpen && 'popup_is-opened'}`} onMouseUp={props.closePopupByClickOutside}>
-      <div className="popup__container">
-        <button type="button" onClick={props.onClose} aria-label="Закрыть окно" className="popup__button popup__button_close popup__button_close-add"></button>
-          <h3 className="popup__title">{props.title}</h3>
-          <form onSubmit={props.onSubmit} className={`popup__input popup__input_type_${props.name}`} name={props.name}>
-            {props.children}
-            <button type="submit" className="popup__button popup__button_submit">{props.isLoadingData ? props.loadingButtonText : props.buttonText}</button>
-          </form>
+    <section className={className}>
+      <div className={`popup__container popup__container_type_${name}`}>
+        <form ref={currentValidatingForm} className={`popup__edit-form popup__edit-form_type_${name}`} name={name} onSubmit={onSubmit}>
+          <h2 className="popup__title">{title}</h2>
+          <fieldset className="popup__info">
+            {children}
+            <button ref={submitButtonRef} type="sumbit" aria-label={ariaLabel} className={`popup__save-button ${name === 'delete' ? 'popup__save-button_type_delete' : 'popup__save-button_disabled'}`} disabled={name !== 'delete'}>{buttonTitle}</button>
+          </fieldset>
+        </form>
+        <button type="button" aria-label="Закрыть всплывающее окно" className="popup__close-button" onClick={handleClosePopup} />
       </div>
-    </div>
-  )
-}
+    </section>
+  );
+};
 
 export default PopupWithForm;

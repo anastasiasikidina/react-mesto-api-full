@@ -1,21 +1,21 @@
-import success from '../images/sign-up/success.svg';
-import fail from '../images/sign-up/not-success.svg';
+import { Link } from 'react-router-dom';
+import success from "../images/success.svg";
+import fail from "../images/fail.svg";
 
-function InfoTooltip(props) {
-
-  const messageIcon = props.authStatus ? success : fail;
-  const iconAlt = props.authStatus ? 'Успех!' : 'Ошибка!';
-  const messageText = props.authStatus ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте еще раз.';
+const InfoToolTip = ({ isRegister, tipType, isOpen, onClose }) => {  
+  const className = `popup popup_type_info-tool-tip ${isOpen ? 'popup_opened' : ''}`;
 
   return (
-    <div className={`popup popup_type_${props.name} ${props.isOpen && 'popup_is-opened'}`} onMouseUp={props.closePopupByClickOutside}>
-      <div className="popup__container popup__container_align_center">
-        <img src={messageIcon} alt={iconAlt} className="popup__image-status" />
-        <h3 className="popup__massage">{messageText}</h3>
-        <button type="button" onClick={props.onClose} aria-label="Закрыть окно" className="popup__button popup__button_close"></button>
+    <section className={className}>
+      <div className="popup__container">
+        <form className="popup__edit-form" name="personal_info" noValidate>
+          <div className="popup__sign" style={{backgroundImage: `url(${tipType === 'success' ? success : fail})`}}></div>
+          <h2 className="popup__title popup__title_type_info-tool-tip">{tipType === 'success' ? 'Вы успешно зарегистрировались!' : (<div>Что-то пошло не так!<div className="popup__new-line"></div>Попробуйте еще раз.</div>)}</h2>
+          {isRegister ? <Link to={tipType === 'success' ? '/sign-in' : '/sign-up'} className="popup__close-button" onClick={onClose} /> : <Link to="/sign-in" className="popup__close-button" onClick={onClose} />}
+        </form>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
 
-export default InfoTooltip;
+export default InfoToolTip;

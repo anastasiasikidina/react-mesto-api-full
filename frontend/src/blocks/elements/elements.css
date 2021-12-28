@@ -1,17 +1,15 @@
 .elements {
-    max-width: 880px;
-    margin: 0 auto;
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 282px);
+  grid-auto-rows: 1fr;
+  grid-gap: 20px 17px;
+  justify-content: center;
 }
 
-@media screen and (min-width: 768px) and (max-width: 932px) {
-    .elements {
-        max-width: 605px;
-        padding: 0 19px;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .elements {
-        max-width: 282px;
-    }
+@media screen and (min-width: 658px) and (max-width: 1023px) {
+  .elements {
+    justify-content: space-evenly;
+  }
 }

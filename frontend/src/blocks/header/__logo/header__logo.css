@@ -1,19 +1,21 @@
 .header__logo {
-    width: 142px;
-    height: 34px;
-    margin: 0;
-    padding: 0;
-    background-image: url(../../../images/header/logo.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    object-fit: cover;
-    border: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+  display: inline-block;
+  height: 33px;
+  width: 142px;
+  background-image: url('../../../images/header-logo.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity .2s ease-in-out;
 }
 
-@media screen and (max-width: 767px) {
-    .header__logo {
-      width: 103.74px;
-    }
+.header__logo:hover {
+  opacity: .7;
+}
+
+@media screen and (max-width: 320px) {
+  .header__logo {
+    width: 104px;
+    height: 24.4px;
+  }
 }
