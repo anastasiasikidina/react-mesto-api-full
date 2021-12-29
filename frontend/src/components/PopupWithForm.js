@@ -17,6 +17,7 @@ const PopupWithForm = ({name, isOpen, title, children, ariaLabel, buttonTitle, o
   useEffect(() => {
     const formValidate = new FormValidator(objSelectors, currentValidatingForm.current);
     formValidate.enableValidation();
+    // eslint-disable-next-line
   }, []);
 
 

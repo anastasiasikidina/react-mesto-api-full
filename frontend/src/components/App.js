@@ -37,9 +37,9 @@ function App() {
     if (token) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userDataRes, initCards]) => {
-          setCurrentUser(userDataRes.data);
-          setUserData({email: userDataRes.data.email});
-          setCards(initCards.data);
+          setCurrentUser(userDataRes);
+          setUserData({email: userDataRes.email});
+          setCards(initCards);
           setLoggedIn(true);
           history.push('/');
         })
@@ -57,6 +57,7 @@ function App() {
 
   useEffect(() => {
     checkTokenAuth();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const closeAllPopups = () => {
@@ -94,7 +95,7 @@ function App() {
     submitButtonRef.current.textContent = "Сохранить...";
     api.patchUserInfo(newUserInfo)
       .then((resUserInfo) => {
-        setCurrentUser(resUserInfo.data);
+        setCurrentUser(resUserInfo);
         submitButtonDisabling(submitButtonRef);
         onClose();
       })
@@ -110,7 +111,7 @@ function App() {
     submitButtonRef.current.textContent = "Сохранить...";
     api.patchAvatar(newAvatarUrlObject)
       .then((resAvatarUrl) => {
-        setCurrentUser(resAvatarUrl.data);
+        setCurrentUser(resAvatarUrl);
         onClose();
         inputReset();
       })
@@ -131,7 +132,7 @@ function App() {
       .then((newCard) => {
         setCards((cards) => {
           return cards.map((tmpCard) => {
-            return tmpCard._id === card._id ? newCard.data : tmpCard;
+            return tmpCard._id === card._id ? newCard : tmpCard;
           });
         });
       })
@@ -163,7 +164,7 @@ function App() {
     submitButtonRef.current.textContent = "Сохранить...";
     api.postNewCard(newCard)
       .then((resNewCard) => {
-        setCards([resNewCard.data, ...cards]);
+        setCards([resNewCard, ...cards]);
         onClose();
         handleInputsReset();
       })

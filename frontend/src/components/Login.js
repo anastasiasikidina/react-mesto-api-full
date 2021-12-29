@@ -20,6 +20,7 @@ const Login = ({ onLogin }) => {
   useEffect(() => {
     const loginFormValidate = new FormValidator(objSelectors, loginForm.current);
     loginFormValidate.enableValidation();
+    // eslint-disable-next-line
   }, []);
 
   function handleEmailChange(evt) {

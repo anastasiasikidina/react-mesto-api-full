@@ -22,6 +22,7 @@ const Register = ({ onRegister }) => {
   useEffect(() => {
     const registrationFormValidate = new FormValidator(objSelectors, registrationForm.current);
     registrationFormValidate.enableValidation();
+    // eslint-disable-next-line
   }, []);
   
   function handleChangeEmail(evt) {
